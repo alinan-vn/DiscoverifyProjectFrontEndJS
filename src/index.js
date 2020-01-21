@@ -2,7 +2,6 @@ const BASE_URL = "http://localhost:3000"
 const ARTISTS_URL = `${BASE_URL}/artists`
 const GENRES_URL = `${BASE_URL}/genres`
 
-const divy = document.getElementsByClassName('card')
 
 document.addEventListener("DOMContentLoaded", function() {
     clickyBoy();
