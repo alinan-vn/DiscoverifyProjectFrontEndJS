@@ -5,24 +5,59 @@ const findBody = document.querySelector('body')
 
 const divy = document.getElementsByClassName('card')
 
+document.addEventListener("DOMContentLoaded", function() {
+    fetchArtists();
+    clickListener();
+});
+
 function clickyBoy() {
     document.addEventListener('click', function(e){
     console.log(e.target)
-})};
+    })
+};
 
-document.addEventListener("DOMContentLoaded", function() {
-    clickyBoy()    
-});
+function clickListener(){
+    document.addEventListener('click', function(e){
+        if (e.target.id === 'search-artists'){
+            // change if to be create-artist
+            postNewArtist(e)
+        } else if (e.target.id === 'search-genres'){
+            // change if to be create-genre
+            postNewGenre(e)
+        }
+    })
+}
+
+function postNewArtist(event){
+    const artistInfo = event.target.dataset.//artistInfo
+    const reqObj = {
+      method: 'POST', 
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ /someArtistInfo/ })
+    }
+  
+    fetch(ARTISTS_URL, reqObj)
+      .then(resp => resp.json())
+      .then(artObj=> renderPostArtist(event, artObj))
+}
+  
+  function renderPostPokemon(event, artObj){
+    const ul = event.target.nextSibling
+    renderPokemon(ul, artObj)
+  }
 
 function fetchArtists(){
     return fetch(ARTISTS_URL)
         .then(resp => resp.json())
         .then(artists => 
             // console.log(artists)
-            addArtists(artists))
+            renderArtists(artists))
 }
 
-function addArtists(artists){
+function renderArtists(artists){
 
     for (const artObj of artists){
         const divWithCard = document.createElement('div')
