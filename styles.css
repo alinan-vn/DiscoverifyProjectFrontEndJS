@@ -37,32 +37,31 @@ body {
   div.artist-creation {
     background-color: white;
     height: 20px;
-    /* width: 300px; */
+    width: auto;
     box-shadow: 10px 10px grey;
     padding: 10px;
     border-radius: 10px;
-    float: left;
-    width: auto;
+    float:left;
   }
 
   div.genre-creation {
     background-color: white;
     height: 20px;
-    /* width: 300px; */
+    width: auto;
     box-shadow: 10px 10px grey;
     padding: 10px;
     border-radius: 10px;
     float: right;
-    width: auto;
   }
 
-  div.card {
+  div.search {
     background-color: #eeeeee;
-    height: 250px;
-    width: 300px;
+    height: auto;
+    width: auto;
     box-shadow: 10px 10px grey;
     padding: 10px;
     border-radius: 10px;
+
   }
 
   div.disco-button {
