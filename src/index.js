@@ -13,6 +13,14 @@ document.addEventListener("DOMContentLoaded", function() {
 function clickListener() {
     document.addEventListener('click', function(e){
         console.log(e.target)
+        const createArtistBtn = document.getElementById('create-artist-btn');
+        const createGenreBtn = document.getElementById('create-genre-btn');
+
+        if (e.target === createArtistBtn){
+            postNewArtist();
+        } else if (e.target === createGenreBtn){
+            console.log('genre creation soon?');
+        }
     })
 };
 
@@ -36,14 +44,14 @@ function renderArtist(artObj){
     divWithCard.classList.add('card')
     divWithCard.id = artObj.id
             
-    const h5 = document.createElement('h5')
-    h5.innerText = artObj.name
+    const h4 = document.createElement('h4')
+    h4.innerText = artObj.name
 
     const p = document.createElement('p')
     p.innerText = 'Genres'
 
     const ul = document.createElement('ul')
-    divWithCard.append(h5, p, ul)
+    divWithCard.append(h4, p, ul)
 
     artObj.genres.forEach(function(genLi){
         const li = document.createElement('li')
@@ -74,6 +82,27 @@ function postNewGenre(genreField){
         .then(resp => resp.json())
         .then(genreObj => renderGenre(genreObj))
 };
+
+function postNewArtist(){
+    console.log('you gonna make an artist now?')
+
+    const artistName = document.getElementById('create-artist-input');
+    const artistInfo = {'name': artistName.value};
+
+    console.log(artistInfo)
+    const reqObj = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(artistInfo)
+    }
+
+    return fetch(ARTISTS_URL, reqObj)
+        .then(resp => resp.json())
+        .then(json => console.log(json))
+}
 
 //fetch existing genres from db
 function fetchGenres(){
@@ -109,6 +138,6 @@ function renderGenre(genreObj){
         li.innerText = artLi.name;
         ul.append(li);
     });
-    
+
     mainSec.append(divWithCard);
 }
