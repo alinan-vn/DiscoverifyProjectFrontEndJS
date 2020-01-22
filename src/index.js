@@ -21,30 +21,37 @@ function clickyBoy() {
 function clickListener(){
     document.addEventListener('click', function(e){
         if (e.target.id === 'create-artist-btn'){
-            postNewArtist(e)
+            artField = document.getElementById('create-artist-field').value
+            postNewArtist(artField)
             
         } else if (e.target.id === 'create-genre-btn'){
-            postNewGenre(e)
+            genField = document.getElementById('create-artist-field').value
+            postNewGenre(genField)
         }
     })
 }
 
 
 // creates fetch request for new artist from form field
-function postNewArtist(event){
-    const artistInfo = event.target.dataset
+function postNewArtist(artField){
+    const artistInfo = artField
     const reqObj = {
-        method: 'POST', 
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({artistInfo})
+        body: JSON.stringify({
+          "name": artistInfo
+        //   "genre": artistInfo.genres
+        //   "image": artistInfo,
+        //   "likes": 0
+        })
     }
     
     fetch(ARTISTS_URL, reqObj)
-    .then(resp => resp.json())
-    .then(artObj=> renderArtist(artObj))
+        .then(resp => resp.json())
+        .then(artObj => renderArtist(artObj))
 }
 
 // feels unecessary for now
@@ -69,16 +76,20 @@ function postNewArtist(event){
         
         //render individual artist obj on page
         function renderArtist(artObj){
+            debugger
             const mainSec = document.querySelector('main')
 
             const divWithCard = document.createElement('div')
             divWithCard.classList.add('card')
             divWithCard.id = artObj.id
             
+            const h5 = document.createElement('h5')
+            h5.innerText = artObj.name
+
             const p = document.createElement('p')
-            p.innerText = artObj.name
+            p.innerText = artObj.genres
             
-            divWithCard.append(p)
+            divWithCard.append(h5, p)
             mainSec.append(divWithCard)
         }
         
