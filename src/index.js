@@ -20,10 +20,10 @@ function clickyBoy() {
 // click events for create artist and create genre buttons
 function clickListener(){
     document.addEventListener('click', function(e){
-        if (e.target.id === 'create-artist-btn'){
+        if (e.target.id === 'create-artist'){
             postNewArtist(e)
             
-        } else if (e.target.id === 'create-genre-btn'){
+        } else if (e.target.id === 'create-genre'){
             postNewGenre(e)
         }
     })
@@ -32,14 +32,14 @@ function clickListener(){
 
 // creates fetch request for new artist from form field
 function postNewArtist(event){
-    const artistInfo = event.target.dataset
+    const artistInfo = event.target.dataset.//artistInfo
     const reqObj = {
         method: 'POST', 
         headers: { 
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify({artistInfo})
+        body: JSON.stringify({ /artistInfo/ })
     }
     
     fetch(ARTISTS_URL, reqObj)
@@ -85,14 +85,14 @@ function postNewArtist(event){
         
 // creates fetch request for new genre from form field
 function postNewGenre(event){
-    const genreInfo = event.target.dataset
+    const genreInfo = event.target.dataset.//genreInfo
     const reqObj = {
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({genreInfo})
+      body: JSON.stringify({ /genreInfo/ })
     }
   
     fetch(GENRES_URL, reqObj)
