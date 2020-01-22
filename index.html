@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <script src="./src/index.js"></script>
     <meta charset="utf-8">
     <title>Discoverify</title>
     <!-- <link rel="stylesheet" href="styles.css"> -->
@@ -12,26 +13,27 @@
     </header>
     <main id='buttons'>
       <div class='artist-creation'>
+        <input type='text' id='create-artist-input' placeholder="artist here">
         <button type='button' id='create-artist-btn'>Add a new Artist!!</button>
       </div>
       
       <div class='genre-creation'>
+        <input type='text' id='create-genre-input' placeholder="genre here">
         <button type='button' id='create-genre-btn'>Add a new Genre!!</button>
       </div>
     </main>
-    <main>
+    <br>
+    <main id='search'>
       <div class='search'>
         <input type='text' id='find-artist-genre-field' placeholder='Type artist or genre name.'> </input>
       </div>
-      <!-- Add our Artists and Genres -->
     </main>
 
-    <script src="./src/index.js"></script>
+    <main id='artists-list'>
 
-    <div class='forms'>
+    </main>
+    <main id='genres-list'>
 
-    </div>
-
-
+    </main>
   </body>
 </html>
