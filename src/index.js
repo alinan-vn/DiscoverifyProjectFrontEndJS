@@ -1,12 +1,13 @@
 const BASE_URL = "http://localhost:3000"
 const ARTISTS_URL = 'http://localhost:3000/artists'
+const CONNECTIONS_URL = 'http://localhost:3000/connections'
 const GENRES_URL = `${BASE_URL}/genres`
 const findBody = document.querySelector('body')
 
 document.addEventListener("DOMContentLoaded", function() {
     clickListener();
     fetchArtists();
-    fetchGenres();
+    // fetchGenres();
 });
 
 // click events for create artist and create genre buttons
@@ -14,13 +15,14 @@ function clickListener() {
     document.addEventListener('click', function(e){
         console.log(e.target)
         const createArtistBtn = document.getElementById('create-artist-btn');
-        const createGenreBtn = document.getElementById('create-genre-btn');
+        // const createGenreBtn = document.getElementById('create-genre-btn');
 
         if (e.target === createArtistBtn){
-            postNewArtist();
-        } else if (e.target === createGenreBtn){
-            console.log('genre creation soon?');
-        }
+            postNewArtistGenre();
+        } 
+        // else if (e.target === createGenreBtn){
+        //     console.log('genre creation soon?');
+        // }
     })
 };
 
@@ -61,47 +63,29 @@ function renderArtist(artObj){
     mainSec.append(divWithCard)
 }       
         
-// creates fetch request for new genre from form field
-function postNewGenre(genreField){
-    const genreInfo = genreField
-    const reqObj = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          "name": genreInfo
-        //   "genre": artistInfo.genres
-        //   "image": artistInfo,
-        //   "likes": 0
-        })
-    };
-    
-    fetch(GENRES_URL, reqObj)
-        .then(resp => resp.json())
-        .then(genreObj => renderGenre(genreObj))
-};
 
-function postNewArtist(){
-    console.log('you gonna make an artist now?')
+function postNewArtistGenre(){
 
-    const artistName = document.getElementById('create-artist-input');
-    const artistInfo = {'name': artistName.value};
 
-    console.log(artistInfo)
+    const artistNameField = document.getElementById('create-artist-input')
+    const genreNameField = document.getElementById('create-genre-input')
+    const artistInfo = {'name': artistNameField.value}
+    const genreInfo = {'name': genreNameField.value}
+    debugger
+
     const reqObj = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(artistInfo)
+        body: JSON.stringify({artistName: artistInfo, genreName: genreInfo})
     }
 
-    return fetch(ARTISTS_URL, reqObj)
+    return fetch(CONNECTIONS_URL, reqObj)
         .then(resp => resp.json())
-        .then(json => console.log(json))
+        .then(json => {console.log(json)}
+        )
 }
 
 //fetch existing genres from db
