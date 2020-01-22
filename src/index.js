@@ -6,6 +6,7 @@ const GENRES_URL = `${BASE_URL}/genres`
 document.addEventListener("DOMContentLoaded", function() {
     clickyBoy();
     fetchArtists();
+    fetchGenres();
     clickListener();
 });
 
@@ -21,38 +22,38 @@ function clickyBoy() {
 function clickListener(){
     document.addEventListener('click', function(e){
         if (e.target.id === 'create-artist-btn'){
-            postNewArtist(e)
+            artField = document.getElementById('create-artist-field').value
+            postNewArtist(artField)
             
         } else if (e.target.id === 'create-genre-btn'){
-            postNewGenre(e)
+            genField = document.getElementById('create-artist-field').value
+            postNewGenre(genField)
         }
     })
 }
 
 
 // creates fetch request for new artist from form field
-function postNewArtist(event){
-    const artistInfo = event.target.dataset
+function postNewArtist(artField){
+    const artistInfo = artField
     const reqObj = {
-        method: 'POST', 
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({artistInfo})
+        body: JSON.stringify({
+          "name": artistInfo
+        //   "genre": artistInfo.genres
+        //   "image": artistInfo,
+        //   "likes": 0
+        })
     }
     
     fetch(ARTISTS_URL, reqObj)
-    .then(resp => resp.json())
-    .then(artObj=> renderArtist(artObj))
+        .then(resp => resp.json())
+        .then(artObj => renderArtist(artObj))
 }
-
-// feels unecessary for now
-//   function renderPostArtist(event, artObj){
-    //     const ul = event.target.nextSibling
-    //     renderArtist( / ul, / artObj)
-    //   }
-    
     //fetch existing artists from db
     function fetchArtists(){
         return fetch(ARTISTS_URL)
@@ -75,56 +76,83 @@ function postNewArtist(event){
             divWithCard.classList.add('card')
             divWithCard.id = artObj.id
             
+            const h5 = document.createElement('h5')
+            h5.innerText = artObj.name
+
             const p = document.createElement('p')
-            p.innerText = artObj.name
-            
-            divWithCard.append(p)
+            p.innerText = 'Genres'
+
+            const ul = document.createElement('ul')
+            divWithCard.append(h5, p, ul)
+
+            artObj.genres.forEach(function(genLi){
+                const li = document.createElement('li')
+                li.innerText = genLi.name
+                ul.append(li)
+            }),
+
             mainSec.append(divWithCard)
         }
         
         
 // creates fetch request for new genre from form field
-function postNewGenre(event){
-    const genreInfo = event.target.dataset
+function postNewGenre(genreField){
+    const genreInfo = genreField
     const reqObj = {
-      method: 'POST', 
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({genreInfo})
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          "name": genreInfo
+        //   "genre": artistInfo.genres
+        //   "image": artistInfo,
+        //   "likes": 0
+        })
     }
-  
+    
     fetch(GENRES_URL, reqObj)
-      .then(resp => resp.json())
-      .then(genreObj=> renderGenre(genreObj))
+        .then(resp => resp.json())
+        .then(genreObj => renderGenre(genreObj))
 }
 
-//fetch existing genres from db
-function fetchGenres(){
-    return fetch(GENRES_URL)
+    //fetch existing genres from db
+    function fetchGenres(){
+        return fetch(GENRES_URL)
         .then(resp => resp.json())
         .then(genres => 
             // console.log(genres)
             iterateGenres(genres))
-}
+        }
+        
+        //takes array of genres and passes each genre element into renderGenre
+        function iterateGenres(genres){
+            genres.forEach(renderGenre)
+        }
+        
+        //render individual genre obj on page
+        function renderGenre(genreObj){
+            const mainSec = document.querySelector('main')
 
-//takes array of genres and passes each genre element into renderGenre
-function iterateGenres(genres){
-    genres.forEach(renderGenre)
-}
+            const divWithCard = document.createElement('div')
+            divWithCard.classList.add('card')
+            divWithCard.id = genreObj.id
+            
+            const h5 = document.createElement('h5')
+            h5.innerText = genreObj.name
 
-//render individual genre obj on page
-function renderGenre(genreObj){
-    const mainSec = document.querySelector('main')
+            const p = document.createElement('p')
+            p.innerText = 'Artists'
 
-    const divWithCard = document.createElement('div')
-    divWithCard.classList.add('card')
-    divWithCard.id = genreObj.id
+            const ul = document.createElement('ul')
+            divWithCard.append(h5, p, ul)
 
-    const p = document.createElement('p')
-    p.innerText = genreObj.name
+            genreObj.artists.forEach(function(artLi){
+                const li = document.createElement('li')
+                li.innerText = artLi.name
+                ul.append(li)
+            }),
 
-    divWithCard.append(p)
-    mainSec.append(divWithCard)
-}
+            mainSec.append(divWithCard)
+        }
