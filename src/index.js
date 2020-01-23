@@ -6,8 +6,8 @@ const findBody = document.querySelector('body')
 
 document.addEventListener("DOMContentLoaded", function() {
     clickListener();
-    fetchArtists();
-    // fetchGenres();
+    // fetchArtists();
+    fetchGenres();
 });
 
 // click events for create artist and create genre buttons
@@ -31,47 +31,47 @@ function fetchArtists(){
     return fetch(ARTISTS_URL)
         .then(resp => resp.json())
         .then(artists => iterateArtists(artists))
-}
+};
         
 //takes array of artists and passes each artist element into renderArtist
 function iterateArtists(artists){
     artists.forEach(renderArtist)
-}
+};
         
 //render individual artist obj on page
 function renderArtist(artObj){
-    const mainSec = document.getElementById('artists-list')
+    const mainSec = document.getElementById('artists-list');
 
-    const divWithCard = document.createElement('div')
-    divWithCard.classList.add('card')
-    divWithCard.id = artObj.id
+    const divWithCard = document.createElement('div');
+    divWithCard.classList.add('card');
+    divWithCard.id = artObj.id;
             
-    const h4 = document.createElement('h4')
-    h4.innerText = artObj.name
+    const h4 = document.createElement('h4');
+    h4.innerText = artObj.name;
 
-    const p = document.createElement('p')
-    p.innerText = 'Genres'
+    const p = document.createElement('p');
+    p.innerText = 'Genres';
 
-    const ul = document.createElement('ul')
-    divWithCard.append(h4, p, ul)
+    const ul = document.createElement('ul');
+    divWithCard.append(h4, p, ul);
 
     artObj.genres.forEach(function(genLi){
-        const li = document.createElement('li')
-        li.innerText = genLi.name
-        ul.append(li)
-    }),
-    mainSec.append(divWithCard)
-}       
+        const li = document.createElement('li');
+        li.innerText = genLi.name;
+        ul.append(li);
+    });
+    mainSec.append(divWithCard);
+};
         
 
 function postNewArtistGenre(){
-
-
     const artistNameField = document.getElementById('create-artist-input')
     const genreNameField = document.getElementById('create-genre-input')
     const artistInfo = {'name': artistNameField.value}
     const genreInfo = {'name': genreNameField.value}
-    debugger
+    
+    resetForm();
+    resetArtistGenreDisplay();
 
     const reqObj = {
         method: 'POST',
@@ -82,11 +82,14 @@ function postNewArtistGenre(){
         body: JSON.stringify({artistName: artistInfo, genreName: genreInfo})
     }
 
-    return fetch(CONNECTIONS_URL, reqObj)
+    fetch(CONNECTIONS_URL, reqObj)
         .then(resp => resp.json())
         .then(json => {console.log(json)}
-        )
-}
+        );
+
+    fetchArtists();
+    fetchGenres();
+};
 
 //fetch existing genres from db
 function fetchGenres(){
@@ -125,3 +128,19 @@ function renderGenre(genreObj){
 
     mainSec.append(divWithCard);
 }
+
+function resetForm(){
+    const artistFormInput = document.getElementById('create-artist-input');
+    const genreFormInput = document.getElementById('create-genre-input');
+
+    artistFormInput.value = '';
+    genreFormInput.value = '';
+};
+
+function resetArtistGenreDisplay(){
+    // console.log('You still need to render the new jazzzz')
+    const artistsMain = document.getElementById('artists-list');
+    const genresMain = document.getElementById('genres-list');
+    artistsMain.innerHTML = '';
+    genresMain.innerHTML = '';
+};
