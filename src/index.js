@@ -18,12 +18,18 @@ function clickListener() {
         
         if (e.target === createArtistBtn){
             postNewArtistGenre();
-        } 
-        else if (e.target.innerText === 'D'){
+        } else if (e.target.innerText === 'D'){
             deleteArtist(e.target.id);
+        } else if (e.target.innerText === 'E'){
+            editArtist(e.target.id);
         }
     })
 };
+
+function editArtist(id){
+    console.log(`the edit object id is ${id}`)
+    // const
+}
 
 //fetch existing artists from db    
 function fetchArtists(){
@@ -103,7 +109,7 @@ function deleteArtist(id){
 
     return fetch(ARTISTS_URL + '/' + `${id}`, {method: 'delete'})
     .then(resp => resp.json())
-    .then(json => console.log(json))
+    .then(json => {return json})
     .catch(error => console.error('oops, something is wrong', error.message))
 
 };
