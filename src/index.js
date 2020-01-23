@@ -6,7 +6,7 @@ const findBody = document.querySelector('body')
 
 document.addEventListener("DOMContentLoaded", function() {
     clickListener();
-    // fetchArtists();
+    fetchArtists();
     fetchGenres();
 });
 
@@ -15,16 +15,21 @@ function clickListener() {
     document.addEventListener('click', function(e){
         console.log(e.target)
         const createArtistBtn = document.getElementById('create-artist-btn');
-        // const createGenreBtn = document.getElementById('create-genre-btn');
-
+        
         if (e.target === createArtistBtn){
             postNewArtistGenre();
-        } 
-        // else if (e.target === createGenreBtn){
-        //     console.log('genre creation soon?');
-        // }
+        } else if (e.target.innerText === 'D'){
+            deleteArtist(e.target.id);
+        } else if (e.target.innerText === 'E'){
+            editArtist(e.target.id);
+        }
     })
 };
+
+function editArtist(id){
+    console.log(`the edit object id is ${id}`)
+    // const
+}
 
 //fetch existing artists from db    
 function fetchArtists(){
@@ -49,11 +54,18 @@ function renderArtist(artObj){
     const h4 = document.createElement('h4');
     h4.innerText = artObj.name;
 
+    const deleteBtn = document.createElement('button');
+    const editBtn = document.createElement('button');
+    deleteBtn.innerText = 'D';
+    deleteBtn.id = artObj.id;
+    editBtn.innerText = 'E';
+    editBtn.id = artObj.id;
+
     const p = document.createElement('p');
     p.innerText = 'Genres';
 
     const ul = document.createElement('ul');
-    divWithCard.append(h4, p, ul);
+    divWithCard.append(h4, deleteBtn, editBtn, p, ul);
 
     artObj.genres.forEach(function(genLi){
         const li = document.createElement('li');
@@ -90,6 +102,22 @@ function postNewArtistGenre(){
     fetchArtists();
     fetchGenres();
 };
+
+function deleteArtist(id){
+    console.log(id)
+    unrenderArtist(id);
+
+    return fetch(ARTISTS_URL + '/' + `${id}`, {method: 'delete'})
+    .then(resp => resp.json())
+    .then(json => {return json})
+    .catch(error => console.error('oops, something is wrong', error.message))
+
+};
+
+function unrenderArtist(id){
+    const artistDiv = document.getElementById(`${id}`);
+    artistDiv.innerHTML = '';
+}
 
 //fetch existing genres from db
 function fetchGenres(){
