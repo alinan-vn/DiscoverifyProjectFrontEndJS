@@ -20,6 +20,8 @@ function clickListener() {
             postNewArtistGenre();
         } else if (e.target.id === 'active-edit'){
             patchArtistName(e.target);
+            fetchArtists();
+            fetchGenres();
         } else if (e.target.innerText === 'D'){
             deleteArtist(e.target.id);
         } else if (e.target.innerText === 'E'){
@@ -43,7 +45,9 @@ function patchArtistName(editBtn){
         body: JSON.stringify(nameData)
     };
 
-    return fetch(ARTISTS_URL + '/' + `${idInt}`, nameConfig)
+    resetArtistGenreDisplay();
+
+    fetch(ARTISTS_URL + '/' + `${idInt}`, nameConfig)
         .then(resp => resp.json())
         .then(json => console.log(json))
         .catch(error => console.error('No patch workin', error.message))
