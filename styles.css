@@ -54,6 +54,13 @@ div.genre-creation {
   float: right;
 }
 
+div.card {
+  background-color: #FFF8DC;
+  height: auto;
+  width: auto;
+  border-radius: 15px;
+}
+
 div.search {
   background-color: #eeeeee;
   height: auto;
@@ -64,14 +71,18 @@ div.search {
 
 }
 
-h4 {
+div h2 {
   color: red;
 }
 
-p {
-  font-size: 1.5em;
+div h3 {
   color: black;
-  font-family: Helvetica;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+div li {
+  color: coral;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 li {
