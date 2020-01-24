@@ -18,17 +18,46 @@ function clickListener() {
         
         if (e.target === createArtistBtn){
             postNewArtistGenre();
+        } else if (e.target.id === 'active-edit'){
+            patchArtistName(e.target);
         } else if (e.target.innerText === 'D'){
             deleteArtist(e.target.id);
         } else if (e.target.innerText === 'E'){
-            editArtist(e.target.id);
-        }
+            createEditArtistInput(e.target.id);
+        } 
     })
 };
 
-function editArtist(id){
-    console.log(`the edit object id is ${id}`)
-    // const
+function patchArtistName(editBtn){
+    const idInt = editBtn.parentElement.id;
+    const editInputInfo = document.getElementById('active-edit-info');
+
+    let nameData = {"name": editInputInfo.value};
+    console.log(nameData)
+    let nameConfig = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(nameData)
+    };
+
+    return fetch(ARTISTS_URL + '/' + `${idInt}`, nameConfig)
+        .then(resp => resp.json())
+        .then(json => console.log(json))
+        .catch(error => console.error('No patch workin', error.message))
+}
+
+function createEditArtistInput(id){
+    const inputField = document.createElement('input');
+    const artistDiv = document.getElementById(`${id}`);
+    inputField.placeholder = 'edit name';
+    inputField.id = 'active-edit-info';
+    artistDiv.insertBefore(inputField, artistDiv.children[3]);
+    const editBtn = artistDiv.children[2];
+    editBtn.id = 'active-edit';
+    editBtn.innerText = 'Submit';
 }
 
 //fetch existing artists from db    
