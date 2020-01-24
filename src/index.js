@@ -84,8 +84,8 @@ function renderArtist(artObj){
     divWithCard.classList.add('card');
     divWithCard.id = artObj.id;
             
-    const h4 = document.createElement('h4');
-    h4.innerText = artObj.name;
+    const h2 = document.createElement('h2');
+    h2.innerText = artObj.name;
 
     const deleteBtn = document.createElement('button');
     const editBtn = document.createElement('button');
@@ -94,11 +94,11 @@ function renderArtist(artObj){
     editBtn.innerText = 'E';
     editBtn.id = artObj.id;
 
-    const p = document.createElement('p');
-    p.innerText = 'Genres';
+    const h3 = document.createElement('h3');
+    h3.innerText = 'Genres';
 
     const ul = document.createElement('ul');
-    divWithCard.append(h4, deleteBtn, editBtn, p, ul);
+    divWithCard.append(h2, deleteBtn, editBtn, h3, ul);
 
     artObj.genres.forEach(function(genLi){
         const li = document.createElement('li');
